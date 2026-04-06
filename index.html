@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEOGhostEngine | Ultra Stable</title>
+    <title>SEOGhostEngine | Original Stable</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,140 +12,96 @@
             --card-bg: #161b22;
             --border-color: #30363d;
             --text-main: #c9d1d9;
-            --accent-blue: #58a6ff;
         }
 
         body {
             background: var(--bg-color);
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 20px;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
+            margin: 0;
         }
-
-        .container { max-width: 800px; width: 100%; margin-top: 50px; }
 
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            padding: 40px;
-            border-radius: 20px;
+            padding: 30px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 500px;
             text-align: center;
-            border-top: 5px solid var(--primary-color);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         input {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             margin-top: 20px;
             background: #0d1117;
             border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: 8px;
             color: white;
             box-sizing: border-box;
-            outline: none;
         }
 
         button {
             width: 100%;
-            padding: 15px;
-            margin-top: 15px;
+            padding: 12px;
+            margin-top: 10px;
             background: var(--primary-color);
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             color: #0d1117;
-            font-weight: 800;
+            font-weight: bold;
             cursor: pointer;
         }
 
         #result {
-            margin-top: 30px;
+            margin-top: 20px;
             text-align: left;
-            background: #000;
-            padding: 20px;
-            border-radius: 10px;
-            display: none;
-            border: 1px solid var(--primary-color);
+            font-size: 0.9rem;
             word-wrap: break-word;
+            display: none;
         }
-
-        .faq-title { margin-top: 80px; text-align: center; font-size: 1.8rem; font-weight: 800; }
-        .faq-grid { display: grid; gap: 20px; margin-top: 40px; }
-        .faq-item { background: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 15px; }
-        .faq-item h3 { color: var(--accent-blue); margin-top: 0; text-align: center; font-size: 1.1rem; }
-        .faq-item p { color: #8b949e; line-height: 1.6; text-align: center; }
-
-        footer { margin-top: 100px; padding: 40px 0; border-top: 1px solid var(--border-color); width: 100%; text-align: center; color: #8b949e; }
-        footer a { color: var(--accent-blue); text-decoration: none; }
-        .kofi-floating { position: fixed; bottom: 25px; right: 25px; background: #29abe0; color: white; padding: 12px 22px; border-radius: 50px; text-decoration: none; display: flex; align-items: center; gap: 10px; font-weight: 700; z-index: 1000; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="card">
-        <div style="font-size: 3rem;">👻</div>
-        <h1 style="margin: 0; font-weight: 800;">SEOGhostEngine</h1>
-        <p style="color: #8b949e; margin-top: 15px;">Analyze SEO Metadata Instantly</p>
-        
-        <input type="text" id="urlInput" placeholder="https://example.com">
-        <button onclick="fetchSEO()">Extract Metadata</button>
-
-        <div id="result"></div>
-    </div>
-
-    <h2 class="faq-title">Frequently Asked Questions</h2>
-    <div class="faq-grid">
-        <div class="faq-item">
-            <h3>What makes SEOGhostEngine different?</h3>
-            <p>It is built for speed. Our engine focus on essential technical data delivered in a terminal-like environment.</p>
-        </div>
-        <div class="faq-item">
-            <h3>Why do some sites fail to load?</h3>
-            <p>Modern browsers have strict security (CORS). We use a proxy to bypass this.</p>
-        </div>
-    </div>
-
-    <footer>
-        <p>Built with passion by <a href="https://github.com/ache-memories" target="_blank">Adnan Hasan</a></p>
-        <p><i>"Imagination is the only weapon in the war against reality"</i></p>
-    </footer>
+<div class="card">
+    <div style="font-size: 2.5rem;">👻</div>
+    <h1 style="margin: 10px 0;">SEOGhostEngine</h1>
+    <input type="text" id="urlInput" placeholder="https://example.com">
+    <button onclick="fetchSEO()">Extract Metadata</button>
+    <div id="result"></div>
 </div>
-
-<a href="https://ko-fi.com/adnan_hasan" class="kofi-floating" target="_blank">☕ Support on Ko-fi</a>
 
 <script>
     async function fetchSEO() {
-        const urlInput = document.getElementById('urlInput');
+        const url = document.getElementById('urlInput').value;
         const resultDiv = document.getElementById('result');
-        let url = urlInput.value.trim();
-        
-        if(!url) return alert('Please enter a URL');
-        if(!url.startsWith('http')) url = 'https://' + url;
+        if(!url) return alert('Please enter URL');
 
         resultDiv.style.display = 'block';
-        resultDiv.innerHTML = 'Extracting...';
+        resultDiv.innerHTML = 'Loading...';
 
         try {
-            const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
-            const data = await response.json();
+            const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
+            const data = await res.json();
             const parser = new DOMParser();
             const doc = parser.parseFromString(data.contents, 'text/html');
 
-            const title = doc.querySelector('title')?.innerText || 'No Title Found';
-            const desc = doc.querySelector('meta[name="description"]')?.content || 'No Description Found';
+            const title = doc.querySelector('title')?.innerText || 'No Title';
+            const desc = doc.querySelector('meta[name="description"]')?.content || 'No Description';
 
             resultDiv.innerHTML = `
                 <p><strong>Title:</strong> <span style="color:var(--primary-color)">${title}</span></p>
                 <p><strong>Description:</strong> ${desc}</p>
             `;
         } catch (e) {
-            resultDiv.innerHTML = 'Error fetching data. Try another URL.';
+            resultDiv.innerHTML = 'Error fetching data.';
         }
     }
 </script>
