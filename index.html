@@ -1,23 +1,54 @@
-<script>
-async function runAudit() {
-    const url = document.getElementById('target').value.trim();
-    const log = document.getElementById('log');
-    // ضع رابط الـ exec الجديد هنا
-    const proxy = "https://script.google.com/macros/s/AKfycbxzv-sQ6KUYWAUYR4cWsAKBxQe15oXMF00XOI08ZCyL1Ru_27EJIKKjMJwLs3phz3Y5/exec";
-    
-    if(!url) return;
-    log.innerHTML = "[*] Connecting to Proxy...";
-    
-    try {
-        const response = await fetch(proxy + "?url=" + encodeURIComponent(url));
-        const text = await response.text();
-        
-        const doc = new DOMParser().parseFromString(text, "text/html");
-        const title = doc.querySelector('title') ? doc.querySelector('title').innerText : "No Title Found";
-        
-        log.innerHTML = "[✓] SUCCESS\n\nTitle: " + title;
-    } catch(e) {
-        log.innerHTML = "[!] STILL BLOCKED\n\nFix: Open the proxy link in a new tab once, then come back here.";
-    }
-}
-</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SEOGhostEngine | Final Stable</title>
+    <style>
+        body { background: #0d1117; color: #c9d1d9; font-family: monospace; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: #161b22; border: 1px solid #30363d; padding: 30px; border-radius: 12px; width: 450px; text-align: center; border-top: 4px solid #238636; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        input { width: 85%; padding: 12px; background: #010409; border: 1px solid #30363d; color: white; border-radius: 6px; margin-bottom: 15px; outline: none; }
+        button { width: 90%; padding: 12px; background: #238636; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        button:hover { background: #2ea043; }
+        #log { margin-top: 20px; text-align: left; background: #010409; padding: 15px; border-radius: 6px; color: #7ee787; min-height: 100px; white-space: pre-wrap; border: 1px solid #30363d; font-size: 13px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2 style="color: #58a6ff;">👻 Ghost Engine Audit</h2>
+        <input type="text" id="target" placeholder="https://example.com">
+        <button onclick="runAudit()">START ANALYSIS</button>
+        <div id="log">> System Online. Ready.</div>
+    </div>
+
+    <script>
+        async function runAudit() {
+            const url = document.getElementById('target').value.trim();
+            const log = document.getElementById('log');
+            
+            if(!url) { log.innerHTML = "[!] Enter URL"; return; }
+            log.innerHTML = "[*] Analysis in progress via Proxy...";
+
+            // استخدام بروكسي عام لتجاوز قيود CORS نهائيا
+            const proxy = "https://api.allorigins.win/get?url=";
+            
+            try {
+                const response = await fetch(proxy + encodeURIComponent(url));
+                const data = await response.json();
+                
+                if (data.contents) {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data.contents, "text/html");
+                    const title = doc.querySelector('title') ? doc.querySelector('title').innerText : "No Title Found";
+                    const description = doc.querySelector('meta[name="description"]') ? doc.querySelector('meta[name="description"]').content : "No Meta Description";
+                    
+                    log.innerHTML = "[✓] ANALYSIS SUCCESSFUL\n\nTitle: " + title + "\n\nDescription: " + description;
+                } else {
+                    log.innerHTML = "[!] Error: Could not fetch data.";
+                }
+            } catch(e) {
+                log.innerHTML = "[!] CONNECTION FAILED\nTry a different URL or check your internet.";
+            }
+        }
+    </script>
+</body>
+</html>
