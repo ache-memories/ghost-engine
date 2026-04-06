@@ -50,6 +50,7 @@
             border-radius: 10px;
             color: white;
             box-sizing: border-box;
+            outline: none;
         }
 
         button {
@@ -62,7 +63,10 @@
             color: #0d1117;
             font-weight: 800;
             cursor: pointer;
+            transition: 0.3s;
         }
+
+        button:hover { opacity: 0.8; }
 
         #result {
             margin-top: 30px;
@@ -72,6 +76,7 @@
             border-radius: 10px;
             display: none;
             border: 1px solid var(--primary-color);
+            word-wrap: break-word;
         }
 
         /* FAQ Section */
@@ -110,12 +115,12 @@
         </div>
         <div class="faq-item">
             <h3>Why do some sites fail to load?</h3>
-            <p>Modern browsers have strict security (CORS). We use a proxy to bypass this.</p>
+            <p>Modern browsers have strict security (CORS). We use a proxy to bypass this, but highly protected sites may still block automated requests.</p>
         </div>
     </div>
 
     <footer>
-        <p>Built with passion by <a href="https://github.com/ache-memories">Adnan Hasan</a></p>
+        <p>Built with passion by <a href="https://github.com/ache-memories" target="_blank">Adnan Hasan</a></p>
         <p style="font-style: italic; font-size: 0.85rem; margin-top: 10px;">"Imagination is the only weapon in the war against reality"</p>
     </footer>
 </div>
@@ -131,7 +136,7 @@
         if(!url) return alert('Please enter a URL');
         
         resultDiv.style.display = 'block';
-        resultDiv.innerHTML = 'Fetching data...';
+        resultDiv.innerHTML = '<span style="color: var(--accent-blue)">Scanning... Please wait.</span>';
 
         try {
             const proxy = 'https://api.allorigins.win/get?url=';
@@ -145,10 +150,10 @@
 
             resultDiv.innerHTML = `
                 <p><strong>Title:</strong> <span style="color:var(--primary-color)">${title}</span></p>
-                <p><strong>Description:</strong> ${desc}</p>
+                <p><strong>Description:</strong> <span style="color:var(--text-main)">${desc}</span></p>
             `;
         } catch (e) {
-            resultDiv.innerHTML = 'Error fetching data. Try another URL.';
+            resultDiv.innerHTML = '<span style="color: #ff4a4a">Error fetching data. Ensure the URL is correct.</span>';
         }
     }
 </script>
