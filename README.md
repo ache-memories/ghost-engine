@@ -3,7 +3,7 @@
 A serverless, high-speed **SEO Metadata Scraper** built using clean JavaScript and HTML. Instantly audit any URL to extract Meta Titles, Descriptions, and H1 tags without the browser blocking CORS.
 
 <p align="center">
-  <img src="GH%C3%96ST%20ENGINE.PNG" width="150" alt="SEOGhostEngine Logo" />
+  <img src="GH%C3%96ST%20ENGINE.PNG" width="150" alt="SEOGhostEngine Logo">
 </p>
 
 ## ✨ Features
