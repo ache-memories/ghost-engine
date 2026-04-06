@@ -10,58 +10,45 @@
         input { width: 85%; padding: 12px; background: #010409; border: 1px solid #30363d; color: white; border-radius: 6px; margin-bottom: 15px; outline: none; }
         button { width: 90%; padding: 12px; background: #238636; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.3s; }
         button:hover { background: #2ea043; transform: scale(1.02); }
-        #log { margin-top: 20px; text-align: left; background: #010409; padding: 15px; border-radius: 6px; color: #7ee787; min-height: 120px; white-space: pre-wrap; border: 1px solid #30363d; font-size: 13px; line-height: 1.5; }
+        #log { margin-top: 20px; text-align: left; background: #010409; padding: 15px; border-radius: 6px; color: #7ee787; min-height: 100px; white-space: pre-wrap; border: 1px solid #30363d; font-size: 13px; }
     </style>
 </head>
 <body>
     <div class="card">
         <h2 style="color: #58a6ff;">👻 Ghost Engine Audit</h2>
-        <input type="text" id="target" placeholder="https://example.com" value="https://qesset.net/">
+        <input type="text" id="target" placeholder="https://example.com">
         <button onclick="runAudit()">START ANALYSIS</button>
-        <div id="log">> System Online. Ready for Scan.</div>
+        <div id="log">> System Online. Ready.</div>
     </div>
 
     <script>
         async function runAudit() {
-            const url = document.getElementById('target').value.trim();
+            const urlInput = document.getElementById('target');
             const log = document.getElementById('log');
-            if(!url) return;
+            const url = urlInput.value.trim();
+            
+            if(!url) { log.innerHTML = "[!] Enter URL"; return; }
+            log.innerHTML = "[*] Requesting data via Ultra-Proxy...";
 
-            log.innerHTML = "[*] Attempting to bypass CORS...\n[*] Fetching data for: " + url;
-
-            // استخدام بروكسي بديل واكثر استقرارا
-            const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(url);
-
+            // استخدام بروكسيcorsproxy.io المجاني والسريع
+            const proxy = "https://corsproxy.io/?" + encodeURIComponent(url);
+            
             try {
-                const response = await fetch(proxyUrl);
-                const html = await response.text();
+                const response = await fetch(proxy);
+                const htmlText = await response.text();
                 
-                if (html.length < 100) throw new Error("Empty Response");
-
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, "text/html");
-                
-                const title = doc.querySelector('title')?.innerText || "No Title Found";
-                const desc = doc.querySelector('meta[name="description"]')?.content || "No Description Found";
-                const h1 = doc.querySelector('h1')?.innerText || "No H1 Found";
-
-                log.innerHTML = "[✓] ANALYSIS SUCCESSFUL\n" + 
-                                "====================================\n" +
-                                "● Title: " + title + "\n" +
-                                "● H1 Tag: " + h1 + "\n" +
-                                "● Desc: " + desc.substring(0, 80) + "...\n" +
-                                "====================================";
-            } catch(e) {
-                log.innerHTML = "[!] PRIMARY PROXY FAILED.\n[*] Trying Backup Proxy...";
-                // محاولة اخيرة ببروكسي AllOrigins لو فشل الاول
-                try {
-                    const res2 = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent(url));
-                    const data2 = await res2.json();
-                    const doc2 = new DOMParser().parseFromString(data2.contents, "text/html");
-                    log.innerHTML = "[✓] SUCCESS (via Backup)\nTitle: " + (doc2.querySelector('title')?.innerText || "Found");
-                } catch(err) {
-                    log.innerHTML = "[!] CRITICAL ERROR: All Proxies Blocked.\nCheck if the target website prevents scraping.";
+                if (htmlText.length > 0) {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(htmlText, "text/html");
+                    const title = doc.querySelector('title') ? doc.querySelector('title').innerText : "No Title Found";
+                    const description = doc.querySelector('meta[name="description"]') ? doc.querySelector('meta[name="description"]').content : "No Meta Description";
+                    
+                    log.innerHTML = "[✓] ANALYSIS SUCCESSFUL\n\nTitle: " + title + "\n\nDescription: " + description;
+                } else {
+                    log.innerHTML = "[!] Error: Received empty data.";
                 }
+            } catch(e) {
+                log.innerHTML = "[!] CONNECTION BLOCKED\n\n1. Check if the URL is correct.\n2. Try opening the site in Incognito mode.";
             }
         }
     </script>
