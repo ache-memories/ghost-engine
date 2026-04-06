@@ -3,7 +3,7 @@
 A serverless, high-speed **SEO Metadata Scraper** built using clean JavaScript and HTML. Instantly audit any URL to extract Meta Titles, Descriptions, and H1 tags without the browser blocking CORS.
 
 <p align="center">
-  <img src="GH%C3%96ST%20ENGINE.PNG" width="150" alt="SEOGhostEngine Logo">
+  <img src="GH%C3%96ST%20ENGINE.PNG" width="150" alt="SEOGhostEngine Logo" />
 </p>
 
 ## ✨ Features
@@ -18,6 +18,7 @@ A serverless, high-speed **SEO Metadata Scraper** built using clean JavaScript a
 1. **Clone the repository:**
    ```bash
    git clone [https://github.com/ache-memories/ghost-engine.git](https://github.com/ache-memories/ghost-engine.git)
+
    ## 📫 Connect & Support
 
 If you find this tool useful, feel free to reach out:
