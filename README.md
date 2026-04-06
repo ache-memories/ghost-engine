@@ -18,3 +18,21 @@ A serverless, high-speed **SEO Metadata Scraper** built using clean JavaScript a
 1. **Clone the repository:**
    ```bash
    git clone [https://github.com/ache-memories/ghost-engine.git](https://github.com/ache-memories/ghost-engine.git)
+   ## 📫 Connect & Support
+
+If you find this tool useful, feel free to reach out:
+
+- **Telegram:** [adnanzzzz3](https://t.me/adnanzzzz3) — _Fastest way for technical support_
+- **X (Twitter):** [@adnanzzzz3](https://x.com/adnanzzzz3)
+- **Instagram:** [adnanzzzz3](https://www.instagram.com/adnanzzzz3)
+- **Portfolio:** [Beacons.ai/adnan.hasan](https://beacons.ai/adnan.hasan)
+
+## ❤️ Support This Project
+
+If this tool saved you time, consider supporting its development:
+
+- **Support me on Ko-fi:** [adnan_hasan](https://ko-fi.com/adnan_hasan)
+- **Give it a ⭐:** If you like this project, please give it a star on GitHub!
+
+---
+_"Imagination is the only weapon in the war against reality."_
