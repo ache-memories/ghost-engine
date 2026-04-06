@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SEOGhostEngine | Final Stable</title>
     <style>
         body { background: #0d1117; color: #c9d1d9; font-family: monospace; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
@@ -22,17 +23,18 @@
 
     <script>
         async function runAudit() {
-            const url = document.getElementById('target').value.trim();
+            const urlInput = document.getElementById('target');
             const log = document.getElementById('log');
+            const url = urlInput.value.trim();
             
             if(!url) { log.innerHTML = "[!] Enter URL"; return; }
             log.innerHTML = "[*] Analysis in progress via Proxy...";
 
-            // استخدام بروكسي عام لتجاوز قيود CORS نهائيا
             const proxy = "https://api.allorigins.win/get?url=";
             
             try {
                 const response = await fetch(proxy + encodeURIComponent(url));
+                if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
                 
                 if (data.contents) {
@@ -46,7 +48,7 @@
                     log.innerHTML = "[!] Error: Could not fetch data.";
                 }
             } catch(e) {
-                log.innerHTML = "[!] CONNECTION FAILED\nTry a different URL or check your internet.";
+                log.innerHTML = "[!] CONNECTION FAILED\nTry again or check the URL.";
             }
         }
     </script>
