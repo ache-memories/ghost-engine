@@ -131,16 +131,21 @@
 
 <script>
     async function fetchSEO() {
-        const url = document.getElementById('urlInput').value;
+        const urlInput = document.getElementById('urlInput');
         const resultDiv = document.getElementById('result');
-        if(!url) return alert('Please enter a URL');
+        let url = urlInput.value.trim();
         
+        if(!url) return alert('Please enter a URL');
+        if(!url.startsWith('http')) url = 'https://' + url;
+
         resultDiv.style.display = 'block';
         resultDiv.innerHTML = '<span style="color: var(--accent-blue)">Scanning... Please wait.</span>';
 
         try {
             const proxy = 'https://api.allorigins.win/get?url=';
             const response = await fetch(proxy + encodeURIComponent(url));
+            if (!response.ok) throw new Error('Network error');
+            
             const data = await response.json();
             const parser = new DOMParser();
             const doc = parser.parseFromString(data.contents, 'text/html');
@@ -149,11 +154,11 @@
             const desc = doc.querySelector('meta[name="description"]')?.content || 'No Description Found';
 
             resultDiv.innerHTML = `
-                <p><strong>Title:</strong> <span style="color:var(--primary-color)">${title}</span></p>
+                <p style="margin-bottom:10px"><strong>Title:</strong> <span style="color:var(--primary-color)">${title}</span></p>
                 <p><strong>Description:</strong> <span style="color:var(--text-main)">${desc}</span></p>
             `;
         } catch (e) {
-            resultDiv.innerHTML = '<span style="color: #ff4a4a">Error fetching data. Ensure the URL is correct.</span>';
+            resultDiv.innerHTML = '<span style="color: #ff4a4a">Error fetching data. Ensure the URL is correct or try another site.</span>';
         }
     }
 </script>
