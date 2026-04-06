@@ -2,40 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SEOGhostEngine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEOGhostEngine | Stable v14.0</title>
     <style>
-        body { background: #0d1117; color: #7ee787; font-family: monospace; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .box { background: #161b22; border: 1px solid #30363d; padding: 20px; border-radius: 8px; width: 90%; max-width: 500px; text-align: center; }
-        input { width: 80%; padding: 12px; margin-bottom: 10px; background: #010409; border: 1px solid #30363d; color: white; border-radius: 4px; }
-        button { width: 85%; padding: 12px; background: #238636; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        #log { margin-top: 20px; text-align: left; border-top: 1px solid #30363d; padding-top: 10px; font-size: 14px; }
+        body { background-color: #0d1117; color: #c9d1d9; font-family: sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .engine-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 30px; width: 100%; max-width: 500px; border-top: 4px solid #238636; box-shadow: 0 10px 40px rgba(0,0,0,0.5); text-align: center; }
+        input { width: 80%; padding: 12px; background: #010409; color: #fff; border: 1px solid #30363d; border-radius: 8px; outline: none; margin-bottom: 15px; }
+        button { width: 85%; padding: 12px; background: #238636; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        #console-log { margin-top: 20px; background: #010409; padding: 15px; border-radius: 8px; font-family: monospace; min-height: 150px; border: 1px solid #30363d; color: #7ee787; white-space: pre-wrap; text-align: left; }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h2 style="color: #58a6ff;">👻 Ghost Engine Audit</h2>
-        <input type="text" id="url" placeholder="https://example.com">
-        <br>
-        <button onclick="runAudit()">START ANALYSIS</button>
-        <div id="log">> Ready for scan...</div>
-    </div>
-    <script>
-        async function runAudit() {
-            const target = document.getElementById('url').value;
-            const log = document.getElementById('log');
-            // انتبه: ضع الرابط الذي نسخته من الخطوة رقم 1 بين العلامتين أدناه
-            const proxy = "ضع_رابط_الـ_EXEC_هنا";
-            
-            if(!target) { log.innerHTML = "[!] Please enter a URL"; return; }
-            log.innerHTML = "[*] Analyzing target...";
-            try {
-                const r = await fetch(proxy + "?url=" + encodeURIComponent(target));
-                const txt = await r.text();
-                const d = new DOMParser().parseFromString(txt, "text/html");
-                const pageTitle = d.querySelector('title') ? d.querySelector('title').innerText : "No Title Found";
-                log.innerHTML = "[✓] SUCCESS\n\nPage Title: " + pageTitle;
-            } catch(e) { log.innerHTML = "[!] Connection Error. Check your Script URL."; }
-        }
-    </script>
+<div class="engine-card">
+    <h1 style="color: #58a6ff;">👻 SEOGhostEngine</h1>
+    <input type="text" id="target-url" placeholder="https://example.com">
+    <button onclick="executeAudit()">START ANALYSIS</button>
+    <div id="console-log">> System Online. Ready...</div>
+</div>
+
+<script>
+async function executeAudit() {
+    const url = document.getElementById('target-url').value.trim();
+    const log = document.getElementById('console-log');
+    // Your Proxy URL from Google Apps Script
+    const proxy = "https://script.google.com/macros/s/AKfycbxzv-sQ6KUYWAUYR4cWsAKBxQe15oXMF00XOI08ZCyL1Ru_27EJIKKjMJwLs3phz3Y5/exec";
+
+    if (!url.startsWith('http')) { log.innerHTML = "[!] Error: Invalid URL."; return; }
+    log.innerHTML = "[*] Scanning: " + url;
+
+    try {
+        const res = await fetch(proxy + "?url=" + encodeURIComponent(url));
+        const html = await res.text();
+        const doc = new DOMParser().parseFromString(html, "text/html");
+        const title = doc.querySelector('title')?.innerText || "No Title Found";
+        log.innerHTML = "[✓] SUCCESS\n====================\nTitle: " + title + "\n====================";
+    } catch (e) {
+        log.innerHTML = "[!] CONNECTION FAILED: Check Google Script Deployment.";
+    }
+}
+</script>
 </body>
 </html>
