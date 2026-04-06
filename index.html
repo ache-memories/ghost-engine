@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SEOGhostEngine</title>
+    <style>
+        body { background: #0d1117; color: #7ee787; font-family: monospace; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .box { background: #161b22; border: 1px solid #30363d; padding: 20px; border-radius: 8px; width: 90%; max-width: 500px; text-align: center; }
+        input { width: 80%; padding: 12px; margin-bottom: 10px; background: #010409; border: 1px solid #30363d; color: white; border-radius: 4px; }
+        button { width: 85%; padding: 12px; background: #238636; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        #log { margin-top: 20px; text-align: left; border-top: 1px solid #30363d; padding-top: 10px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2 style="color: #58a6ff;">👻 Ghost Engine Audit</h2>
+        <input type="text" id="url" placeholder="https://example.com">
+        <br>
+        <button onclick="runAudit()">START ANALYSIS</button>
+        <div id="log">> Ready for scan...</div>
+    </div>
+    <script>
+        async function runAudit() {
+            const target = document.getElementById('url').value;
+            const log = document.getElementById('log');
+            // انتبه: ضع الرابط الذي نسخته من الخطوة رقم 1 بين العلامتين أدناه
+            const proxy = "ضع_رابط_الـ_EXEC_هنا";
+            
+            if(!target) { log.innerHTML = "[!] Please enter a URL"; return; }
+            log.innerHTML = "[*] Analyzing target...";
+            try {
+                const r = await fetch(proxy + "?url=" + encodeURIComponent(target));
+                const txt = await r.text();
+                const d = new DOMParser().parseFromString(txt, "text/html");
+                const pageTitle = d.querySelector('title') ? d.querySelector('title').innerText : "No Title Found";
+                log.innerHTML = "[✓] SUCCESS\n\nPage Title: " + pageTitle;
+            } catch(e) { log.innerHTML = "[!] Connection Error. Check your Script URL."; }
+        }
+    </script>
+</body>
+</html>
