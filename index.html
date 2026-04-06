@@ -4,21 +4,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SEOGhostEngine | Ultra Stable</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { background: #0d1117; color: #c9d1d9; font-family: monospace; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .card { background: #161b22; border: 1px solid #30363d; padding: 30px; border-radius: 12px; width: 450px; text-align: center; border-top: 4px solid #238636; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-        input { width: 85%; padding: 12px; background: #010409; border: 1px solid #30363d; color: white; border-radius: 6px; margin-bottom: 15px; outline: none; }
-        button { width: 90%; padding: 12px; background: #238636; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        button:hover { background: #2ea043; transform: scale(1.02); }
-        #log { margin-top: 20px; text-align: left; background: #010409; padding: 15px; border-radius: 6px; color: #7ee787; min-height: 100px; white-space: pre-wrap; border: 1px solid #30363d; font-size: 13px; }
+        :root {
+            --primary-color: #00ff88; /* لون الشبح الأخضر المميز */
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --border-color: #30363d;
+            --text-main: #c9d1d9;
+            --accent-blue: #58a6ff;
+        }
+
+        body { 
+            background: var(--bg-color); 
+            color: var(--text-main); 
+            font-family: 'Inter', sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+        }
+
+        .card { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border-color); 
+            padding: 40px; 
+            border-radius: 20px; 
+            width: 100%;
+            max-width: 500px; 
+            text-align: center; 
+            border-top: 5px solid var(--primary-color); 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6); 
+        }
+
+        .header-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        h2 { 
+            color: var(--accent-blue); 
+            font-weight: 800;
+            margin-bottom: 25px;
+            letter-spacing: -0.5px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        input { 
+            width: 100%; 
+            padding: 14px; 
+            background: #010409; 
+            border: 1px solid var(--border-color); 
+            color: white; 
+            border-radius: 10px; 
+            outline: none; 
+            box-sizing: border-box;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+        }
+
+        button { 
+            width: 100%; 
+            padding: 15px; 
+            background: var(--primary-color); 
+            color: #0b0e14; 
+            border: none; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-weight: 800; 
+            font-size: 1rem;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        }
+
+        button:hover { 
+            background: #00db74; 
+            transform: translateY(-3px); 
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        #log { 
+            margin-top: 25px; 
+            text-align: left; 
+            background: #010409; 
+            padding: 20px; 
+            border-radius: 12px; 
+            color: #7ee787; 
+            min-height: 120px; 
+            white-space: pre-wrap; 
+            border: 1px solid var(--border-color); 
+            font-size: 14px; 
+            line-height: 1.6;
+            font-family: 'monospace';
+        }
+
+        .status-msg {
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+
+        .result-label {
+            color: var(--primary-color);
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <div class="card">
-        <h2 style="color: #58a6ff;">👻 Ghost Engine Audit</h2>
-        <input type="text" id="target" placeholder="https://example.com">
+        <div class="header-icon">👻</div>
+        <h2>GHOST ENGINE AUDIT</h2>
+        
+        <div class="input-group">
+            <input type="text" id="target" placeholder="https://example.com" autocomplete="off">
+        </div>
+
         <button onclick="runAudit()">START ANALYSIS</button>
-        <div id="log">> System Online. Ready.</div>
+        
+        <div id="log">> System Online. Ready to Scrape.</div>
     </div>
 
     <script>
@@ -27,28 +141,39 @@
             const log = document.getElementById('log');
             const url = urlInput.value.trim();
             
-            if(!url) { log.innerHTML = "[!] Enter URL"; return; }
-            log.innerHTML = "[*] Requesting data via Ultra-Proxy...";
+            if(!url) { 
+                log.innerHTML = "<span style='color:#ff7b72;'>[!] Error: Please enter a target URL.</span>"; 
+                return; 
+            }
 
-            // استخدام بروكسيcorsproxy.io المجاني والسريع
+            log.innerHTML = "<span class='status-msg'>[*] Requesting data via Ultra-Proxy...</span>\n[*] Bypassing CORS restrictions...";
+
+            // استخدام البروكسي القوي الذي اخترته لتخطي القيود
             const proxy = "https://corsproxy.io/?" + encodeURIComponent(url);
             
             try {
                 const response = await fetch(proxy);
+                if (!response.ok) throw new Error("Connection Failed");
+
                 const htmlText = await response.text();
                 
                 if (htmlText.length > 0) {
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(htmlText, "text/html");
-                    const title = doc.querySelector('title') ? doc.querySelector('title').innerText : "No Title Found";
-                    const description = doc.querySelector('meta[name="description"]') ? doc.querySelector('meta[name="description"]').content : "No Meta Description";
                     
-                    log.innerHTML = "[✓] ANALYSIS SUCCESSFUL\n\nTitle: " + title + "\n\nDescription: " + description;
+                    const title = doc.querySelector('title') ? doc.querySelector('title').innerText : "No Title Found";
+                    const description = doc.querySelector('meta[name="description"]') ? doc.querySelector('meta[name="description"]').content : "No Meta Description Found";
+                    const h1 = doc.querySelector('h1') ? doc.querySelector('h1').innerText : "No H1 Tag Found";
+                    
+                    log.innerHTML = "[✓] ANALYSIS SUCCESSFUL\n\n" + 
+                                    "<span class='result-label'>PAGE TITLE:</span> " + title + "\n\n" +
+                                    "<span class='result-label'>H1 HEADER:</span> " + h1 + "\n\n" +
+                                    "<span class='result-label'>META DESCRIPTION:</span> " + description;
                 } else {
-                    log.innerHTML = "[!] Error: Received empty data.";
+                    log.innerHTML = "<span style='color:#ff7b72;'>[!] Error: Target returned empty data.</span>";
                 }
             } catch(e) {
-                log.innerHTML = "[!] CONNECTION BLOCKED\n\n1. Check if the URL is correct.\n2. Try opening the site in Incognito mode.";
+                log.innerHTML = "<span style='color:#ff7b72;'>[!] CONNECTION BLOCKED</span>\n\n1. Ensure the URL starts with http/https.\n2. The target site may have advanced scraping protection.\n3. Try a different URL.";
             }
         }
     </script>
